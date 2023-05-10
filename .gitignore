@@ -18,5 +18,6 @@ dist
 
 # Ignore file with Shopify API keys
 .env
+conf.yml
 node_modules
 tmp_test.go

@@ -12,9 +12,9 @@ import (
 
 func RedisClient() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:        fmt.Sprintf("%s:%d", conf.Env.RedisHost, conf.Env.RedisPort),
-		DB:          conf.Env.RedisDb,
-		PoolSize:    conf.Env.RedisPoolSize,
+		Addr:        fmt.Sprintf("%s:%d", conf.Env.Redis.Host, conf.Env.Redis.Port),
+		DB:          conf.Env.Redis.Db,
+		PoolSize:    conf.Env.Redis.PoolSize,
 		MaxRetries:  3,
 		IdleTimeout: 10 * time.Second,
 	})

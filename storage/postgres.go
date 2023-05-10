@@ -13,7 +13,9 @@ var DB *gorm.DB
 
 func GenPostgresConnection() (db *gorm.DB) {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
-		conf.Env.DbHost, conf.Env.DbPort, conf.Env.DbUserName, conf.Env.DbName, conf.Env.DbPassword)
+		conf.Env.Database.Host, conf.Env.Database.Port,
+		conf.Env.Database.Username, conf.Env.Database.Name,
+		conf.Env.Database.Password)
 
 	log.Logger.Info().Msg(fmt.Sprintf("Connecting to database dsn: %s", dsn))
 

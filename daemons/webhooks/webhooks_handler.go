@@ -1,4 +1,4 @@
-package daemons
+package webhooks
 
 import (
 	"fmt"
@@ -26,7 +26,7 @@ type Dispatcher struct {
 func (h Dispatcher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rendering := render.New()
 
-	shopifyApp := goshopify.App{ApiSecret: conf.Env.ShopifySharedSecret}
+	shopifyApp := goshopify.App{ApiSecret: conf.Env.Shopify.SharedSecret}
 	if conf.Env.Mode != conf.ModeDev && !shopifyApp.VerifyWebhookRequest(r) {
 		rendering.Text(w, http.StatusUnauthorized, AccessDeny)
 	} else {

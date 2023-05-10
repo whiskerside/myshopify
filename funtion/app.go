@@ -7,9 +7,9 @@ import (
 
 var (
 	ShopifyApp = goshopify.App{
-		ApiKey:      conf.Env.ShopifyAPIKey,
-		ApiSecret:   conf.Env.ShopifySharedSecret,
-		RedirectUrl: conf.Env.ShopifyRedirectURL,
-		Scope:       conf.Env.ShopifyScopes,
+		ApiKey:      conf.Env.Shopify.APIKey,
+		ApiSecret:   conf.Env.Shopify.SharedSecret,
+		RedirectUrl: conf.Env.Shopify.RedirectURI,
+		Scope:       conf.Env.Shopify.Scopes,
 	}
 )

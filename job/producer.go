@@ -17,9 +17,9 @@ var (
 
 func init() {
 	producer, _ = workers.NewProducer(workers.Options{
-		ServerAddr: fmt.Sprintf("%s:%d", conf.Env.RedisHost, conf.Env.RedisPort),
-		Database:   conf.Env.RedisDb,
-		PoolSize:   conf.Env.RedisPoolSize,
+		ServerAddr: fmt.Sprintf("%s:%d", conf.Env.Redis.Host, conf.Env.Redis.Port),
+		Database:   conf.Env.Redis.Db,
+		PoolSize:   conf.Env.Redis.PoolSize,
 		ProcessID:  "1",
 	})
 	log.Logger.Info().Msg("Init producer...")

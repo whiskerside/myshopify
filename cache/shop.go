@@ -10,6 +10,10 @@ import (
 	"github.com/whiskerside/myshopify/storage"
 )
 
+// ShopCacheKey returns a cache key for the given Shopify domain.
+//
+// shopifyDomain: the domain of the Shopify store.
+// string: a string representation of the cache key.
 func ShopCacheKey(shopifyDomain string) string {
 	return fmt.Sprintf("myshopify:shop:%s", shopifyDomain)
 }
