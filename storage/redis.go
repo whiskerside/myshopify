@@ -1,0 +1,27 @@
+package storage
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/go-redis/redis/v8"
+	"github.com/whiskerside/myshopify/conf"
+	"github.com/whiskerside/myshopify/log"
+)
+
+func RedisClient() *redis.Client {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:        fmt.Sprintf("%s:%d", conf.Env.RedisHost, conf.Env.RedisPort),
+		DB:          conf.Env.RedisDb,
+		PoolSize:    conf.Env.RedisPoolSize,
+		MaxRetries:  3,
+		IdleTimeout: 10 * time.Second,
+	})
+	pong, err := rdb.Ping(context.Background()).Result()
+	if err == redis.Nil || err != nil {
+		panic(fmt.Sprintf("Redis init failed, err: %+v\n", err))
+	}
+	log.Logger.Info().Msg(fmt.Sprintf("Redis init... %+v", pong))
+	return rdb
+}
