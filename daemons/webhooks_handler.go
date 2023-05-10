@@ -8,6 +8,7 @@ import (
 	goshopify "github.com/bold-commerce/go-shopify/v3"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/unrolled/render"
+	"github.com/whiskerside/myshopify/cache"
 	"github.com/whiskerside/myshopify/conf"
 	"github.com/whiskerside/myshopify/job"
 	"github.com/whiskerside/myshopify/log"
@@ -30,7 +31,7 @@ func (h Dispatcher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		rendering.Text(w, http.StatusUnauthorized, AccessDeny)
 	} else {
 		shopifyDomain := r.Header.Get("X-Shopify-Shop-Domain")
-		tinyShop, tsAvailable := models.GetTiny(shopifyDomain)
+		tinyShop, tsAvailable := cache.GetShopByShopifyDomain(shopifyDomain)
 		if tsAvailable {
 			log.Logger.Info().Msg(
 				fmt.Sprintf("Loaded webhook request shop[%s] from the cache", shopifyDomain))
