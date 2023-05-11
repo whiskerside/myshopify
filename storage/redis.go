@@ -7,7 +7,6 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	"github.com/whiskerside/myshopify/conf"
-	"github.com/whiskerside/myshopify/log"
 )
 
 func RedisClient() *redis.Client {
@@ -22,6 +21,6 @@ func RedisClient() *redis.Client {
 	if err == redis.Nil || err != nil {
 		panic(fmt.Sprintf("Redis init failed, err: %+v\n", err))
 	}
-	log.Logger.Info().Msg(fmt.Sprintf("Redis init... %+v", pong))
+	logs.Info().Msg(fmt.Sprintf("Redis init... %+v", pong))
 	return rdb
 }

@@ -19,6 +19,10 @@ const (
 	AccessDeny = "401 Unauthorized"
 )
 
+var (
+	logs = log.Logger()
+)
+
 type Dispatcher struct {
 	Topic string
 }
@@ -33,7 +37,7 @@ func (h Dispatcher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		shopifyDomain := r.Header.Get("X-Shopify-Shop-Domain")
 		tinyShop, tsAvailable := cache.GetShopByShopifyDomain(shopifyDomain)
 		if tsAvailable {
-			log.Logger.Info().Msg(
+			logs.Info().Msg(
 				fmt.Sprintf("Loaded webhook request shop[%s] from the cache", shopifyDomain))
 			tinyShop.ShopifyDomain = shopifyDomain
 
@@ -49,7 +53,7 @@ func (h Dispatcher) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			_, err = job.Enqueue(h.Topic, params)
 			if err != nil {
 				// TODO maybe should raise the alert to monitoring system in real-time
-				log.Logger.Err(err).Msg("Push event to message queue raise exception")
+				logs.Err(err).Msg("Push event to message queue raise exception")
 			} else {
 				rendering.Text(w, http.StatusOK, "OK")
 			}

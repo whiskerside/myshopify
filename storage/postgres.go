@@ -9,7 +9,10 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var (
+	logs = log.Logger()
+	DB   *gorm.DB
+)
 
 func GenPostgresConnection() (db *gorm.DB) {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
@@ -17,13 +20,13 @@ func GenPostgresConnection() (db *gorm.DB) {
 		conf.Env.Database.Username, conf.Env.Database.Name,
 		conf.Env.Database.Password)
 
-	log.Logger.Info().Msg(fmt.Sprintf("Connecting to database dsn: %s", dsn))
+	logs.Info().Msg(fmt.Sprintf("Connecting to database dsn: %s", dsn))
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		FullSaveAssociations: true,
 	})
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg("Connect PostgreSQL failed, exit.")
+		logs.Fatal().Err(err).Msg("Connect PostgreSQL failed, exit.")
 	}
 	return
 }

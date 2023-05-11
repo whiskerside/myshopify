@@ -21,25 +21,23 @@ import (
 )
 
 var (
-	logfile string
-	port    int
+	port int
 )
 
 func init() {
 	flag.IntVar(&port, "port", 8000, "Server port")
-	flag.StringVar(&logfile, "log", "webhook.log", "Log file path")
 }
 
 func main() {
 
 	flag.Parse()
 
-	logFile, err := os.OpenFile(logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	logFile, err := os.OpenFile(conf.Env.Log.File, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer logFile.Close()
-	log.Logger.Output(logFile)
+	logs := log.Logger()
 	pidfile.Write()
 
 	r := mux.NewRouter()
@@ -57,15 +55,15 @@ func main() {
 
 	go func() {
 		pid, _ := pidfile.Read()
-		log.Logger.Info().
+		logs.Info().
 			Str("redis-host", conf.Env.Redis.Host).
 			Int("redis-port", conf.Env.Redis.Port).
 			Int("redis-db", conf.Env.Redis.Db).
-			Str("log-file", logfile).
+			Str("log-file", conf.Env.Log.File).
 			Int("pid", pid).
 			Msg("Server running")
 
-		log.Logger.Printf("%v", server.ListenAndServe())
+		logs.Printf("%v", server.ListenAndServe())
 	}()
 	// make sure idle connections returned
 	processed := make(chan struct{})
@@ -77,17 +75,17 @@ func main() {
 		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 		defer cancel()
 		if err := server.Shutdown(ctx); nil != err {
-			log.Logger.Fatal().Err(err).Msg("Server shutdown failed")
+			logs.Fatal().Err(err).Msg("Server shutdown failed")
 		}
-		log.Logger.Info().Msg("Server gracefully shutdown")
+		logs.Info().Msg("Server gracefully shutdown")
 		close(processed)
 	}()
 
 	// serve
 	err = server.ListenAndServe()
-	log.Logger.Info().Msg("Server shutdown")
+	logs.Info().Msg("Server shutdown")
 	if http.ErrServerClosed != err {
-		log.Logger.Fatal().Err(err).Msg("Server not gracefully shutdown")
+		logs.Fatal().Err(err).Msg("Server not gracefully shutdown")
 	}
 	// waiting for goroutine above processed
 	<-processed

@@ -2,10 +2,10 @@ package conf
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/whiskerside/myshopify/log"
 )
 
 var (
@@ -23,7 +23,7 @@ func init() {
 	confFile := fmt.Sprintf("%s/conf.yml", currentWorkDirectory)
 	err := cleanenv.ReadConfig(confFile, &Env)
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg(fmt.Sprintf("Load %s failed, exit", confFile))
+		log.Fatalf(fmt.Sprintf("Load %s failed, exit", confFile))
 	}
 }
 

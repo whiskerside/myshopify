@@ -10,6 +10,10 @@ import (
 	"github.com/whiskerside/myshopify/storage"
 )
 
+var (
+	logs = log.Logger()
+)
+
 // ShopCacheKey returns a cache key for the given Shopify domain.
 //
 // shopifyDomain: the domain of the Shopify store.
@@ -26,7 +30,7 @@ func GetShopByShopifyDomain(shopifyDomain string) (params.Shop, bool) {
 	var ts params.Shop
 	rdb := storage.RedisClient()
 	if err := rdb.HGetAll(context.Background(), ShopCacheKey(shopifyDomain)).Scan(&ts); err != nil {
-		log.Logger.Err(err).Msg("GetCachedShop err")
+		logs.Err(err).Msg("GetCachedShop err")
 		return ts, false
 	}
 	if funk.NotEmpty(ts.ShopifyDomain) {

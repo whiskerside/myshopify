@@ -13,6 +13,7 @@ import (
 
 var (
 	producer *workers.Producer
+	logs     = log.Logger()
 )
 
 func init() {
@@ -22,7 +23,7 @@ func init() {
 		PoolSize:   conf.Env.Redis.PoolSize,
 		ProcessID:  "1",
 	})
-	log.Logger.Info().Msg("Init producer...")
+	logs.Info().Msg("Init producer...")
 }
 
 func Enqueue(topic string, msgBody params.MsgBody) (string, error) {
