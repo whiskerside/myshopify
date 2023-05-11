@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/bold-commerce/go-shopify/v3 v3.14.0
 	github.com/digitalocean/go-workers2 v0.10.4
-	github.com/facebookgo/pidfile v0.0.0-20150612191647-f242e2999868
 	github.com/gin-gonic/gin v1.9.0
 	github.com/go-redis/cache/v8 v8.4.4
 	github.com/go-redis/redis/v8 v8.11.5
@@ -14,7 +13,6 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/rs/zerolog v1.29.1
 	github.com/thoas/go-funk v0.9.3
-	github.com/unrolled/render v1.6.0
 	gorm.io/driver/postgres v1.5.0
 	gorm.io/gorm v1.25.1
 )
@@ -26,7 +24,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
-	github.com/facebookgo/atomicfile v0.0.0-20151019160806-2de1f203e7d5 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
