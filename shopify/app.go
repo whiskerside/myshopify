@@ -1,4 +1,4 @@
-package funtion
+package shopify
 
 import (
 	goshopify "github.com/bold-commerce/go-shopify/v3"
@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	ShopifyApp = goshopify.App{
+	App = goshopify.App{
 		ApiKey:      conf.Env.Shopify.APIKey,
 		ApiSecret:   conf.Env.Shopify.SharedSecret,
 		RedirectUrl: conf.Env.Shopify.RedirectURI,

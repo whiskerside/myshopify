@@ -1,4 +1,4 @@
-mode: development
+mode: debug
 
 log:
   file: ./logs/app.log
@@ -23,3 +23,6 @@ redis:
   port: 6379
   db: 0
   pool_size: 10
+
+webhooks:
+  router_prefix: /webhooks

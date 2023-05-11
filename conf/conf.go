@@ -15,7 +15,7 @@ var (
 
 const (
 	projectDirName = "myshopify"
-	ModeDev        = "dev"
+	ModeDev        = "debug"
 )
 
 func init() {
@@ -28,7 +28,7 @@ func init() {
 }
 
 type Configuration struct {
-	Mode string `env:"MODE" env-required:"true" env-default:"dev"`
+	Mode string `env:"MODE" env-required:"true" env-default:"debug"`
 
 	Log struct {
 		File  string `env:"LOG_FILE_NAME" env-description:"Service log file name" env-required:"true"`
@@ -57,5 +57,7 @@ type Configuration struct {
 		PoolSize int    `yaml:"pool_size" env:"REDIS_POOL_SIZE" env-description:"Redis connection pool size" env-default:"30"`
 	} `yaml:"redis"`
 
-	APIPort int `env:"API_PORT" env-description:"API service port" env-default:"9000"`
+	Webhooks struct {
+		RouterPrefix string `yaml:"router_prefix" env:"ROUTER_PREFIX" env-description:"Router prefix" env-default:"/webhooks"`
+	} `yaml:"webhooks"`
 }
